@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Retail Sales Analytics & Profitability Diagnostics Executive Dashboard">
+  <title>Retail Sales Analytics | Executive Portfolio Dashboard</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Dashboard Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="dashboard-header">
+      <div class="header-title-group">
+        <h1>
+          Retail Sales Analytics
+          <span class="badge-tag">Executive BI</span>
+        </h1>
+        <p class="header-subtitle">
+          9,994 Transactions &bull; Diagnosing Revenue Drivers & Margin Destruction (2014–2017)
+        </p>
+      </div>
+      <div class="header-controls">
+        <button id="btn-reset" class="btn-reset" title="Reset all applied filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          Reset Filters
+        </button>
+      </div>
+    </header>
+
+    <!-- Global Interactive Filter Bar -->
+    <section class="filter-bar" aria-label="Dashboard Filters">
+      <div class="filter-group">
+        <label for="filter-region" class="filter-label">Region</label>
+        <select id="filter-region" class="filter-select">
+          <option value="All">All Regions (4)</option>
+          <option value="West">West Region</option>
+          <option value="East">East Region</option>
+          <option value="Central">Central Region</option>
+          <option value="South">South Region</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-segment" class="filter-label">Customer Segment</label>
+        <select id="filter-segment" class="filter-select">
+          <option value="All">All Segments (3)</option>
+          <option value="Consumer">Consumer</option>
+          <option value="Corporate">Corporate</option>
+          <option value="Home Office">Home Office</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-year" class="filter-label">Order Year</label>
+        <select id="filter-year" class="filter-select">
+          <option value="All">All Years (2014-2017)</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+        </select>
+      </div>
+
+      <div class="filter-summary-badge">
+        Showing <span id="filtered-count">9,994 of 9,994</span> orders
+      </div>
+    </section>
+
+    <!-- Executive KPI Cards -->
+    <section class="kpi-grid" aria-label="Executive KPIs">
+      <!-- KPI 1: Revenue -->
+      <div class="kpi-card revenue">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Revenue</span>
+          <div class="kpi-icon">$</div>
+        </div>
+        <div class="kpi-value" id="kpi-revenue">$2,297,201</div>
+        <div class="kpi-subtext" id="sub-revenue">Avg Order Value: $458.61</div>
+      </div>
+
+      <!-- KPI 2: Net Profit -->
+      <div class="kpi-card profit">
+        <div class="kpi-header">
+          <span class="kpi-title">Net Profit</span>
+          <div class="kpi-icon">&#10003;</div>
+        </div>
+        <div class="kpi-value" id="kpi-profit">$286,397</div>
+        <div class="kpi-subtext" id="sub-profit">Profitable Operations</div>
+      </div>
+
+      <!-- KPI 3: Profit Margin -->
+      <div class="kpi-card margin">
+        <div class="kpi-header">
+          <span class="kpi-title">Profit Margin</span>
+          <div class="kpi-icon">%</div>
+        </div>
+        <div class="kpi-value" id="kpi-margin">12.47%</div>
+        <div class="kpi-subtext" id="sub-margin">Healthy Margin</div>
+      </div>
+
+      <!-- KPI 4: Total Orders -->
+      <div class="kpi-card orders">
+        <div class="kpi-header">
+          <span class="kpi-title">Unique Orders</span>
+          <div class="kpi-icon">&#128230;</div>
+        </div>
+        <div class="kpi-value" id="kpi-orders">5,009</div>
+        <div class="kpi-subtext" id="sub-orders">19.4% unprofitable lines</div>
+      </div>
+
+      <!-- KPI 5: Avg Discount -->
+      <div class="kpi-card discount">
+        <div class="kpi-header">
+          <span class="kpi-title">Avg Discount Rate</span>
+          <div class="kpi-icon">&#9888;</div>
+        </div>
+        <div class="kpi-value" id="kpi-discount">15.6%</div>
+        <div class="kpi-subtext" id="sub-discount">9,994 total items</div>
+      </div>
+    </section>
+
+    <!-- Key Strategic Insight Alert Callout -->
+    <div class="insight-banner">
+      <div class="insight-icon">&#9888;&#65039;</div>
+      <div class="insight-content">
+        <h4>Critical Business Finding: The 20% Discount Cliff</h4>
+        <p>
+          Discounts &le; 20% produce solid <strong>11.6% to 29.5%</strong> profit margins. Discretionary discounts <strong>&gt; 20% collapse into an average -37.3% margin</strong>, creating <strong>-$135,376 in cumulative losses</strong> across 1,393 transactions. Capping discretionary discounts recovers +$135K in net profit immediately.
+        </p>
+      </div>
+    </div>
+
+    <!-- Primary Charts Section -->
+    <div class="charts-grid-primary">
+      <!-- Chart 1: Monthly Sales & Profit Trend -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3>Revenue & Profit Monthly Trend</h3>
+            <p class="chart-subtitle">Long-term revenue trajectory and Q4 holiday surge dynamics</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-trend"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Customer Segment Share -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3>Revenue by Segment</h3>
+            <p class="chart-subtitle">Consumer vs. Corporate vs. Home Office</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-segment"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Charts Section -->
+    <div class="charts-grid-secondary">
+      <!-- Chart 3: Sub-Category Profitability -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3>Net Profit by Sub-Category</h3>
+            <p class="chart-subtitle">Flagging chronic loss leaders (Tables, Bookcases)</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-subcategory"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 4: The Discount Cliff Elasticity -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3>The "Discount Cliff" Elasticity</h3>
+            <p class="chart-subtitle">Profit margin collapse above 20% discount</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-discount"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 5: Regional Sales vs Profit -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-group">
+            <h3>Regional Performance</h3>
+            <p class="chart-subtitle">West & East efficiency vs. Central margin drag</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-region"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Profitability Audit Table -->
+    <section class="data-table-card">
+      <div class="table-header-tabs">
+        <div>
+          <h3 style="font-size: 1.05rem; font-weight: 700;">Product Profitability Leaderboard</h3>
+          <p style="font-size: 0.8rem; color: #94a3b8;">Identify top earnings contributors and severe margin drains</p>
+        </div>
+        <div class="tabs-group">
+          <button id="tab-top" class="tab-btn active">Top 5 Cash Cows</button>
+          <button id="tab-bottom" class="tab-btn">Top 5 Loss Leaders</button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Category & Sub-Category</th>
+              <th>Total Sales</th>
+              <th>Net Profit</th>
+              <th>Margin %</th>
+            </tr>
+          </thead>
+          <tbody id="product-table-body">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Strategic Recommendations Panel -->
+    <footer class="recommendations-panel">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        Actionable Recommendations for Retail Executives
+      </h3>
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <h5>1. Enforce 15% Max Discretionary Discount</h5>
+          <p>Implement hard validation limits in the CRM. Any discount exceeding 20% requires VP Finance approval, eliminating the -$135K loss pocket.</p>
+          <span class="rec-impact">&plus;$135,000 Expected Profit Uplift</span>
+        </div>
+        <div class="rec-card">
+          <h5>2. Restructure Tables & Bookcases Catalog</h5>
+          <p>Tables (-$17.7K) and Bookcases (-$3.5K) lose money on heavy shipping and discounting. Bundle with high-margin chairs or renegotiate freight.</p>
+          <span class="rec-impact">&plus;$21,000 Margin Recovery</span>
+        </div>
+        <div class="rec-card">
+          <h5>3. Eliminate Central Region Price War</h5>
+          <p>Central discounts average 24.0% (vs 10.9% in West), sinking Texas and Illinois. Align Central pricing rules with profitable Western operations.</p>
+          <span class="rec-impact">&plus;$40,000 Regional Turnaround</span>
+        </div>
+        <div class="rec-card">
+          <h5>4. Capitalize on High-AOV Home Office</h5>
+          <p>Home Office yields the highest margin (14.0%) and highest AOV ($472.67). Direct corporate digital marketing campaigns toward remote workers.</p>
+          <span class="rec-impact">Accelerated Organic Growth</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Load Data and Application Logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
