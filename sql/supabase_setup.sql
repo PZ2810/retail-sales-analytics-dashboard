@@ -45,11 +45,12 @@ CREATE INDEX idx_sb_category ON superstore(category);
 CREATE INDEX idx_sb_segment ON superstore(segment);
 CREATE INDEX idx_sb_discount_tier ON superstore(discount_tier);
 
--- Enable public read access (Row Level Security policy)
+-- Enable public read and write access for dataset analysis
 ALTER TABLE superstore ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow public read access"
+CREATE POLICY "Allow public read and insert"
 ON superstore
-FOR SELECT
+FOR ALL
 TO public
-USING (true);
+USING (true)
+WITH CHECK (true);
