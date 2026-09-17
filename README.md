@@ -169,7 +169,7 @@ The Central territory's average discount rate (24.0%) is more than double the We
 ### Setup & Run
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/retail-sales-analytics-dashboard.git
+git clone https://github.com/PZ2810/retail-sales-analytics-dashboard.git
 cd retail-sales-analytics-dashboard
 
 # 2. Install dependencies
