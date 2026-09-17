@@ -44,16 +44,26 @@ def upload_to_supabase():
 
     # Insert in batches of 500 rows
     batch_size = 500
+    inserted = 0
+    has_error = False
+
     for i in range(0, total_records, batch_size):
         batch = records[i:i + batch_size]
         try:
             supabase.table("superstore").upsert(batch).execute()
+            inserted += len(batch)
             print(f"  Inserted rows {i + 1} to {min(i + batch_size, total_records)}...")
         except Exception as e:
-            print(f"  [Error] Failed at batch {i}: {e}")
+            print(f"\n[Error] Upload stopped: {e}")
+            print("\n>> Reason: The 'superstore' table does not exist yet in your Supabase project.")
+            print(">> Solution: Run the SQL in 'sql/supabase_setup.sql' inside Supabase SQL Editor first.")
+            has_error = True
             break
 
-    print("\n[SUCCESS] Data uploaded to Supabase 'superstore' table!")
+    if not has_error and inserted == total_records:
+        print(f"\n[SUCCESS] All {total_records:,} rows uploaded to Supabase 'superstore' table!")
+    else:
+        print(f"\n[INCOMPLETE] Uploaded {inserted} of {total_records} rows.")
 
 if __name__ == "__main__":
     upload_to_supabase()
